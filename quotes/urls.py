@@ -7,5 +7,5 @@ router = routers.DefaultRouter()
 router.register(r'quotes', views.QuoteViewSet)
 
 urlpatterns = [
-    path('checkout-quote', views.CheckoutQuoteView.as_view()),
+    path('checkout-quote/', views.CheckoutQuoteView.as_view()),
 ]

@@ -1,3 +1,4 @@
+from decimal import Decimal
 import string
 import random
 
@@ -83,10 +84,10 @@ class Quote(models.Model):
     @property
     def volcanic_state_fee(self):
         multiplier = quote_constants.VOLCANIC_STATE_FEE if self.property_state \
-            in quote_constants.VOLCANIC_STATES else 0
+            in quote_constants.VOLCANIC_STATES else Decimal(0)
         return self.base_fee * multiplier
 
     @property
     def property_owner_discount(self):
-        multiplier = quote_constants.PROPERTY_OWNER_DISCOUNT if self.owns_insure_property else 0
+        multiplier = quote_constants.PROPERTY_OWNER_DISCOUNT if self.owns_insure_property else Decimal(0)
         return self.base_fee * multiplier

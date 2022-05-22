@@ -9,6 +9,7 @@ djangorestframework = '*'
 
 [dev-packages]
 autopep8 = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.9"
