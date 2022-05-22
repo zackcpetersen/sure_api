@@ -14,9 +14,10 @@ to install all package reqs including dev pages (like `coverage` - so you can se
 After all requirements are installed, go ahead and run
 `pipenv shell` to activate the virtual environment.
 
-Once you're in the shell, run the following commands to run tests and generate a coverage report.
+Once you're in the shell, run the following commands to create the database, run tests, and generate a coverage report.
 
 ```
+python manage.py migrate
 python manage.py test -v 2
 coverage run manage.py test
 coverage html
@@ -40,8 +41,8 @@ also access the admin to accomplish this - [127.0.0.1:8000/admin/](http://127.0.
 Create a quote using the HTML form provided or the raw data block and note the `quote_id` returned from the response,
 you'll need it for the next step.
 
-Now navigate to 
-[127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>](http://127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>) 
+Now navigate to
+[127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>](http://127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>)
 to see the quote policy costs.
 
 Thanks for taking some time to review my project! Have a great rest of your day.
