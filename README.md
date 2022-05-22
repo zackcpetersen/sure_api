@@ -31,18 +31,25 @@ Once the tests are complete, create a user and start the server to checkout the 
 `python manage.py createsuperuser` - follow prompts to create your user <br>
 `python manage.py runserver`
 
-This project has two main API endpoints: <br>
-[127.0.0.1:8000/api/quotes](http://127.0.0.1:8000/api/quotes/) <br>
-[127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>](http://127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>)
+**Note:** there are no routes to the base url `/` of this project - use the links below to access the API pages. Look
+for a _Log in_ button at the top right of the page and use your superuser credentials created in the previous step to
+authenticate.
 
-Now, navigate to [127.0.0.1:8000/api/quotes](http://127.0.0.1:8000/api/quotes/) to create a new quote (note - you can
+This project has two main API endpoints: <br>
+[127.0.0.1:8000/api/quotes/](http://127.0.0.1:8000/api/quotes/) <br>
+[127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>/](http://127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>)
+
+Now, navigate to [127.0.0.1:8000/api/quotes/](http://127.0.0.1:8000/api/quotes/) to create a new quote (note - you can
 also access the admin to accomplish this - [127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)).
 
 Create a quote using the HTML form provided or the raw data block and note the `quote_id` returned from the response,
 you'll need it for the next step.
 
 Now navigate to
-[127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>](http://127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>)
+[127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>/](http://127.0.0.1:8000/api/checkout-quote/?quote=<quote_id>)
 to see the quote policy costs.
+
+As per the project description, a quote cannot be updated after creation - there is no way to update from the API.<br> 
+_Hint_ - Utilize the admin page if you need to make updates to an existing quote.
 
 Thanks for taking some time to review my project! Have a great rest of your day.
