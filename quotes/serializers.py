@@ -35,5 +35,6 @@ class CheckoutQuoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quote
-        fields = ['base_premium', 'total_term_premium', 'total_monthly_premium', 'total_additional_term_fees',
-                  'total_monthly_fees', 'total_term_discounts', 'total_monthly_discounts']
+        fields = ['id', 'quote_id', 'effective_date', 'base_premium', 'total_term_premium',
+                  'total_monthly_premium', 'total_additional_term_fees', 'total_monthly_fees',
+                  'total_term_discounts', 'total_monthly_discounts']
