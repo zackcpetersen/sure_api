@@ -14,6 +14,7 @@ class QuoteTests(TestCase):
     def setUp(self):
         self.maxDiff = None
         self.date_format = '%Y-%m-%d'
+        self.today = datetime.date.today()
 
         self.quote_endpoint = '/api/quotes/'
         self.checkout_quote_endpoint = '/api/checkout-quote/?quote={}'
@@ -25,7 +26,7 @@ class QuoteTests(TestCase):
             password='Sure.api/t3sting!')
 
         self.post_data = {
-            'effective_date': '2022-05-22',
+            'effective_date': self.today.strftime(self.date_format),
             'prev_policy_cancelled': False,
             'owns_insure_property': False,
             'property_zip': '84116',
@@ -66,21 +67,20 @@ class QuoteTests(TestCase):
         """
         # testing that effective date must be >= today
         post_data = copy.deepcopy(self.post_data)
-        today = datetime.date.today()
-        yesterday = today - datetime.timedelta(days=1)
+        yesterday = self.today - datetime.timedelta(days=1)
         post_data.update({'effective_date': yesterday.strftime(self.date_format)})
         yesterday_response = self.client.post(self.quote_endpoint, data=post_data)
         self.assertEqual(yesterday_response.status_code, 400)
         self.assertEqual(yesterday_response.json(), {'effective_date': ['Effective date cannot be in the past']})
 
         # updating date to today
-        post_data.update({'effective_date': today.strftime(self.date_format)})
+        post_data.update({'effective_date': self.today.strftime(self.date_format)})
         today_response = self.client.post(self.quote_endpoint, data=post_data)
         self.assertEqual(today_response.status_code, 201)
 
         # testing invalid date formats
         invalid_data = copy.deepcopy(self.post_data)
-        invalid_date_formats = ['05-22-2022', '05/22/2022', 1234, 'hello world', 'null', '', ' ']
+        invalid_date_formats = [self.today.strftime('%m-%d-%Y'), self.today.strftime('%m/%d/%Y'), 1234, 'hello world', 'null', '', ' ']
         for invalid_format in invalid_date_formats:
             invalid_data.update({'effective_date': invalid_format})
             response = self.client.post(self.quote_endpoint, data=invalid_data)
@@ -120,7 +120,7 @@ class QuoteTests(TestCase):
                         property_state=state)
 
                     response = self.client.get(self.checkout_quote_endpoint.format(quote.quote_id))
-                    expected = self.generate_expected_quote_response(quote, policy_status, property_owner, state)
+                    expected = self.generate_expected_quote_response(quote)
 
                     self.assertEqual(response.json(), expected)
 
@@ -128,7 +128,7 @@ class QuoteTests(TestCase):
         response = self.client.get(self.checkout_quote_endpoint.format('ABCDE12345'))
         self.assertEqual(response.status_code, 400)
 
-    def generate_expected_quote_response(self, quote, policy_status, property_owner, state):
+    def generate_expected_quote_response(self, quote):
         # manually calculating these so it doesn't rely on model properties
         base_fee = Decimal(quote.base_fee)
         property_owner_discount = base_fee * quote_constants.PROPERTY_OWNER_DISCOUNT if \
